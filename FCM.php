@@ -7,50 +7,47 @@ use \Jyggen\Curl\Request as Request;
 
 class FirebaseManager
 {
-      const KEY = 'yourfcmkey';
-      private $appURL = 'https://fcm.googleapis.com/fcm/send';
-	    private $device_target;
-	    private $data;
-	    private $response;
-			private $notification;
+      	const KEY = 'yourfcmkey';
+      	private $appURL = 'https://fcm.googleapis.com/fcm/send';
+	private $device_target;
+	private $data;
+	private $response;
+	private $notification;
 
-	    public function sendPush()
-	    {
-        $headers = array(
-          'Authorization:key=' . $this->KEY,
-  				"Content-Type: application/json"
-        );
-        $fields = array();
-				$target = $this->device_target;
-        $fields['data'] = $this->data;
-        if(is_array($target)){
-						if (count($target) == 1) {
-							$fields['condition'] = "'".$target[0]."' in topics";
-						}
-						if (count($target) >= 2) {
-							$topics = '';
-							foreach ($target as $k => $v) {
-								if ($topics == '') {
-											$topics = "'".$v."' in topics";
-								}else {
-											$topics .= " || '".$v."' in topics";
-								}
-							}
-							$fields['condition'] = $topics;
-						}
+	public function sendPush()
+	{
+        	$headers = array('Authorization:key=' . $this->KEY,
+				 "Content-Type: application/json");
+        	$fields = array();
+		$target = $this->device_target;
+        	$fields['data'] = $this->data;
+        	if(is_array($target)){
+			if (count($target) == 1) {
+				$fields['condition'] = "'".$target[0]."' in topics";
+			}
+			if (count($target) >= 2) {
+				$topics = '';
+				foreach ($target as $k => $v) {
+					if ($topics == '') {
+						$topics = "'".$v."' in topics";
+					}else {
+						$topics .= " || '".$v."' in topics";
+					}
 				}
-        else{
-							$fields['condition'] = "'".$target."' in topics";
-        }
+				$fields['condition'] = $topics;
+			}
+		}else{
+				$fields['condition'] = "'".$target."' in topics";
+		}
 
 	    	$request = new Request($this->appUrl);
-				$request->setOption(CURLOPT_POST, true);
-  			$request->setOption(CURLOPT_HTTPHEADER,$headers);
-  			$request->setOption(CURLOPT_SSL_VERIFYHOST, 0);
-  			$request->setOption(CURLOPT_SSL_VERIFYPEER, FALSE);
-  			$request->setOption(CURLOPT_POSTFIELDS, json_encode($fields));
-  			$request->execute();
-  			$this->response = $request->getResponse();
+		$request->setOption(CURLOPT_POST, true);
+  		$request->setOption(CURLOPT_HTTPHEADER,$headers);
+  		$request->setOption(CURLOPT_SSL_VERIFYHOST, 0);
+  		$request->setOption(CURLOPT_SSL_VERIFYPEER, FALSE);
+  		$request->setOption(CURLOPT_POSTFIELDS, json_encode($fields));
+  		$request->execute();
+  		$this->response = $request->getResponse();
 	    }
 
 	    public function setData($push_data)
