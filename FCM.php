@@ -7,7 +7,7 @@ use \Jyggen\Curl\Request as Request;
 
 class FirebaseManager
 {
-      	const KEY = 'yourfcmkey';
+      	private $key = 'yourfcmkey';
       	private $appURL = 'https://fcm.googleapis.com/fcm/send';
 	private $device_target;
 	private $data;
@@ -16,7 +16,7 @@ class FirebaseManager
 
 	public function sendPush()
 	{
-        	$headers = array('Authorization:key=' . $this->KEY,
+        	$headers = array('Authorization:key=' . $this->key,
 				 "Content-Type: application/json");
         	$fields = array();
 		$target = $this->device_target;
@@ -40,7 +40,7 @@ class FirebaseManager
 				$fields['condition'] = "'".$target."' in topics";
 		}
 
-	    	$request = new Request($this->appUrl);
+	    	$request = new Request($this->appURL);
 		$request->setOption(CURLOPT_POST, true);
   		$request->setOption(CURLOPT_HTTPHEADER,$headers);
   		$request->setOption(CURLOPT_SSL_VERIFYHOST, 0);
