@@ -49,6 +49,11 @@ class FirebaseManager
   		$request->execute();
   		$this->response = $request->getResponse();
 	    }
+	
+	    public function setTarget($push_target)
+	    {
+		$this->device_target = $push_target;
+	    }
 
 	    public function setData($push_data)
 	    {
