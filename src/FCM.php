@@ -1,6 +1,6 @@
 <?php
 
-namespace juniorsev3n\FCM;
+namespace Juniorsev3n\FCM;
 
 
 class FirebaseManager
